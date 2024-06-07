@@ -4,9 +4,11 @@ import cn.citynight.cloud.entities.Pay;
 import cn.citynight.cloud.mapper.PayMapper;
 import cn.citynight.cloud.service.PayService;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PayServiceImpl implements PayService {
 
     @Resource

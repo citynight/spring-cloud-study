@@ -23,7 +23,7 @@ public class PayController {
         return "成功插入记录，返回值：" + result;
     }
 
-    @PostMapping("/pay/del{id}")
+    @PostMapping("/pay/del/{id}")
     public String deletePay(@PathVariable("id") Integer id)
     {
         log.info("deletePay:{}", id);
@@ -42,7 +42,7 @@ public class PayController {
         return "成功更新记录，返回值：" + result;
     }
 
-    @GetMapping("/pay/get{id}")
+    @GetMapping("/pay/get/{id}")
     public Pay getById(@PathVariable("id") Integer id)
     {
         log.info("getById:{}", id);
