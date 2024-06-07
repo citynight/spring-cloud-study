@@ -23,7 +23,7 @@ public class PayController {
         return "成功插入记录，返回值：" + result;
     }
 
-    @PostMapping("/pay/del/{id}")
+    @DeleteMapping("/pay/del/{id}")
     public String deletePay(@PathVariable("id") Integer id)
     {
         log.info("deletePay:{}", id);
@@ -38,6 +38,7 @@ public class PayController {
         log.info("updatePay:{}", payDTO);
         Pay pay = new Pay();
         BeanUtils.copyProperties(payDTO, pay);
+        log.info("updatePay:{}", pay);
         int result = payService.update(pay);
         return "成功更新记录，返回值：" + result;
     }

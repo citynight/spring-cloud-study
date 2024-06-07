@@ -26,7 +26,7 @@ public class PayServiceImpl implements PayService {
 
     @Override
     public int update(Pay pay) {
-        return payMapper.updateByExampleSelective(pay, null);
+        return payMapper.updateByPrimaryKeySelective(pay);
     }
 
     @Override
