@@ -3,7 +3,6 @@ package cn.citynight.cloud.controller;
 import cn.citynight.cloud.entities.Pay;
 import cn.citynight.cloud.entities.PayDTO;
 import cn.citynight.cloud.service.PayService;
-import cn.hutool.core.bean.BeanUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -50,5 +49,4 @@ public class PayController {
         Pay pay = payService.getById(id);
         return pay;
     }
-
 }
