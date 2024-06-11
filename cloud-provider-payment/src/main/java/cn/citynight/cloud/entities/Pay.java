@@ -1,5 +1,6 @@
 package cn.citynight.cloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -56,6 +57,7 @@ public class Pay {
      */
     @Column(name = "create_time")
     @Schema(title = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -63,6 +65,7 @@ public class Pay {
      */
     @Column(name = "update_time")
     @Schema(title = "更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**
