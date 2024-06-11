@@ -15,7 +15,7 @@ public class ResultData<T> {
     public static <T> ResultData<T> success(T data) {
         return new ResultData<T>().setCode(ReturnCodeEnum.RC200.getCode()).setMessage(ReturnCodeEnum.RC200.getMessage()).setData(data).setTimestamp(System.currentTimeMillis());
     }
-    public static <T> ResultData<T> fail(ReturnCodeEnum returnCodeEnum) {
-        return new ResultData<T>().setCode(returnCodeEnum.getCode()).setMessage(returnCodeEnum.getMessage()).setTimestamp(System.currentTimeMillis());
+    public static <T> ResultData<T> fail(Integer code, String message) {
+        return new ResultData<T>().setCode(code).setMessage(message).setTimestamp(System.currentTimeMillis());
     }
 }

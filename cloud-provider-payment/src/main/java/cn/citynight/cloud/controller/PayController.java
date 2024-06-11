@@ -53,6 +53,9 @@ public class PayController {
     @Operation(summary = "查询", description = "查询支付流水方法，id做参数")
     public ResultData<Pay> getById(@PathVariable("id") Integer id)
     {
+        if (id == -4) {
+            throw new RuntimeException("故意抛出异常");
+        }
         log.info("getById:{}", id);
         Pay pay = payService.getById(id);
         return ResultData.success(pay);
