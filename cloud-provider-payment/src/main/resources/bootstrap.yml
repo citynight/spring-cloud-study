@@ -13,3 +13,5 @@ spring:
       config:
         profile-separator: '-' # default value is ',', but we use '-' in our project
         format: YAML
+        watch:
+          wait-time: 1 # default value is 55s, but we test with 1s. normally, we don't need to change it.
