@@ -57,4 +57,10 @@ public class OrderController {
             return ResultData.fail(ReturnCodeEnum.RC500.getCode(), "修改失败");
         }
     }
+
+
+    @GetMapping("/consumer/pay/get/info")
+    public String getInfoByConsul() {
+        return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/info", String.class);
+    }
 }
