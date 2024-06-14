@@ -7,8 +7,12 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -62,5 +66,22 @@ public class OrderController {
     @GetMapping("/consumer/pay/get/info")
     public String getInfoByConsul() {
         return restTemplate.getForObject(PaymentSrv_URL + "/pay/get/info", String.class);
+    }
+
+    @Resource
+    private DiscoveryClient discoveryClient;
+
+    @GetMapping("/consumer/discovery")
+    public String discovery() {
+        List<String> services = discoveryClient.getServices();
+        for (String service : services) {
+            log.info("*****element: " + service);
+        }
+        log.info("=========================");
+        List<ServiceInstance> instances = discoveryClient.getInstances("cloud-payment-service");
+        for (ServiceInstance instance : instances) {
+            log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort() + "\t" + instance.getUri());
+        }
+        return instances.get(0).getServiceId() + "\t" + instances.get(0).getHost() + "\t" + instances.get(0).getPort() + "\t" + instances.get(0).getUri();
     }
 }
