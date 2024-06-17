@@ -12,6 +12,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.TimeUnit;
+
 @RestController
 @Slf4j
 @Tag(name = "支付微服务模块", description = "支付CRUD")
@@ -58,6 +60,11 @@ public class PayController {
             throw new RuntimeException("故意抛出异常");
         }
         log.info("getById:{}", id);
+        try {
+            TimeUnit.SECONDS.sleep(62);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Pay pay = payService.getById(id);
         return ResultData.success(pay);
     }

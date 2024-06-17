@@ -4,14 +4,10 @@ import cn.citynight.cloud.apis.PayFeignApi;
 import cn.citynight.cloud.entities.PayDTO;
 import cn.citynight.cloud.resp.ResultData;
 import cn.citynight.cloud.resp.ReturnCodeEnum;
+import cn.hutool.core.date.DateUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -32,7 +28,17 @@ public class OrderController {
     @GetMapping(value = "/feign/pay/get/{id}")
     public ResultData getPayInfo(@PathVariable("id") Integer id) {
         log.info("-----支付微服务远程调用，按照 id 查询订单支付流水信息");
-        ResultData payInfo = payFeignApi.getPayInfo(id);
+
+        ResultData payInfo = null;
+        try {
+            // 打印开始时间
+            log.info("-----调用开始------" + DateUtil.now());
+            payInfo = payFeignApi.getPayInfo(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("调用结束------" + DateUtil.now());
+            return ResultData.fail(ReturnCodeEnum.RC500.getCode(), "调用失败");
+        }
         return payInfo;
     }
     @GetMapping(value = "/feign/pay/mylb")

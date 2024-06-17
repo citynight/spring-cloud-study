@@ -11,5 +11,20 @@ spring:
       discovery:
         service-name: ${spring.application.name}
         prefer-ip-address: true
-#        heartbeat:
-#          enabled: true # 开启健康检查
+        #        heartbeat:
+        #          enabled: true # 开启健康检查
+    openfeign:
+      httpclient:
+        hc5:
+          enabled: true
+      client:
+        config:
+          default:
+#            链接超时
+            connect-timeout: 3000
+            #            读取超时
+            read-timeout: 3000
+          cloud-payment-service:
+            connect-timeout: 5000
+            read-timeout: 5000
+
