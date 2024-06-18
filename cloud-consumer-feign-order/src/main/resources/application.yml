@@ -17,6 +17,13 @@ spring:
       httpclient:
         hc5:
           enabled: true
+      compression:
+        request:
+          enabled: true
+          mime-types: text/html,application/json,application/xml # 压缩的mime类型
+          min-request-size: 2048 # 2KB最小触发压缩的阈值
+        response:
+          enabled: true
       client:
         config:
           default:
@@ -25,6 +32,13 @@ spring:
             #            读取超时
             read-timeout: 3000
           cloud-payment-service:
-            connect-timeout: 5000
-            read-timeout: 5000
-
+            connect-timeout: 3000
+            read-timeout: 3000
+# feign 日志以声明级别监控哪个接口
+logging:
+  level:
+    cn:
+      citynight:
+        cloud:
+          apis:
+            PayFeignApi: debug
