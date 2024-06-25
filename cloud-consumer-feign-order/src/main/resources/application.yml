@@ -24,6 +24,11 @@ spring:
           min-request-size: 2048 # 2KB最小触发压缩的阈值
         response:
           enabled: true
+      # 开启 circuit breaker 和分组激活 spring.cloud.openfeign.circuitbreaker.enabled=true
+      circuitbreaker:
+        enabled: true
+        group:
+          enabled: true #没开分组永远不用分组的配置。精确优先、分组次之（开了分组）、默认最后
       client:
         config:
           default:
@@ -32,13 +37,31 @@ spring:
             #            读取超时
             read-timeout: 3000
           cloud-payment-service:
-            connect-timeout: 3000
-            read-timeout: 3000
+            connect-timeout: 20000
+            read-timeout: 20000
 # feign 日志以声明级别监控哪个接口
-logging:
-  level:
-    cn:
-      citynight:
-        cloud:
-          apis:
-            PayFeignApi: debug
+#logging:
+#  level:
+#    cn:
+#      citynight:
+#        cloud:
+#          apis:
+#            PayFeignApi: debug
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50 # 设置 50% 的调用失败时打开断路器，超过失败请求百分比 circuit breaker 变为 open 状态
+        sliding-window-type: COUNT_BASED # 滑动窗口类型为 COUNT_BASED
+        sliding-window-size: 6 # 滑动窗口的大小配置 COUNT_BASED 表示 6 个请求，配置 TIME_BASED 表示 6 秒
+        minimum-number-of-calls: 6 #断路器计算失败率或慢调用率之前所需的最小样本（每个滑动窗口周期）。如果 minimumNumberOfCalls为 10,在计算故障率之前必须调用 10 次。如果少于 10次即便之前都失败了断路器也不会进入到打开状态
+        automatic-transition-from-open-to-half-open-enabled: true # 是否开启自动从开启状态过渡到半开状态，默认值是 true，如果启用，CircuitBreaker将自动从开启状态过度到半开状态，并允许一些请求通过以测试服务器是否恢复正常。
+        wait-duration-in-open-state:
+          seconds: 5 # 从open状态到半开状态的等待时间
+        permitted-number-of-calls-in-half-open-state: 2 # 半开状态下允许的最大请求数，默认值是 10.在半开状态下，CircuitBreaker 将允许最多permitted-number-of-calls-in-half-open-state个请求通过。如果其中有任何一个请求失败，CircuitBreaker 将重新进入开启状态
+        record-exceptions:
+          - java.lang.Exception
+    instances:
+      cloud-payment-service:
+        base-config: default
